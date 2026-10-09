@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Delper: Transaction Flow</title>
+<style>
+:root {
+  box-sizing: border-box;
+  --bg: #f7f6f2;
+  --surface: #ffffff;
+  --ink: #1d1d1b;
+  --muted: #5f5f58;
+  --accent: #0f6b5c;
+  --accent-soft: #e2f1ee;
+  --warn: #8a5a00;
+  --warn-soft: #fbf1dc;
+  --line: #e4e2da;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #15171a;
+    --surface: #1e2126;
+    --ink: #ecebe6;
+    --muted: #a3a39b;
+    --accent: #5fd0b8;
+    --accent-soft: #1d3530;
+    --warn: #e8b35a;
+    --warn-soft: #3a2e15;
+    --line: #2e3238;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #15171a;
+  --surface: #1e2126;
+  --ink: #ecebe6;
+  --muted: #a3a39b;
+  --accent: #5fd0b8;
+  --accent-soft: #1d3530;
+  --warn: #e8b35a;
+  --warn-soft: #3a2e15;
+  --line: #2e3238;
+}
+* { margin: 0; padding: 0; }
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  line-height: 1.55;
+  font-size: 16px;
+}
+.wrap { max-width: 880px; margin: 0 auto; padding: 24px 18px 56px; }
+header.hero { padding: 28px 0 8px; }
+.kicker { color: var(--accent); font-weight: 600; font-size: 13px; letter-spacing: .08em; text-transform: uppercase; }
+h1 { font-size: clamp(26px, 6vw, 36px); line-height: 1.15; margin: 10px 0 12px; }
+.lede { color: var(--muted); font-size: 17px; max-width: 640px; }
+h2 { font-size: 20px; margin: 40px 0 6px; }
+.phase-note { color: var(--muted); font-size: 15px; margin-bottom: 14px; }
+.steps { list-style: none; display: grid; gap: 12px; }
+.steps li {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 14px 16px 14px 56px;
+  position: relative;
+}
+.steps li .n {
+  position: absolute;
+  left: 16px; top: 14px;
+  width: 26px; height: 26px;
+  border-radius: 50%;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-weight: 700;
+  display: grid; place-items: center;
+  font-size: 13px;
+}
+.steps strong { display: block; margin-bottom: 2px; }
+.steps span { color: var(--muted); font-size: 15px; }
+.branch { display: grid; gap: 8px; margin-top: 10px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+.branch div {
+  border-radius: 10px;
+  padding: 10px 12px;
+  font-size: 14px;
+  border: 1px solid var(--line);
+}
+.branch .fail { background: var(--warn-soft); }
+.branch .pass { background: var(--accent-soft); }
+.branch b { display: block; margin-bottom: 3px; }
+.note {
+  background: var(--warn-soft);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 16px;
+  margin-top: 40px;
+  font-size: 15px;
+}
+.note p + p { margin-top: 8px; }
+.disclaimer { color: var(--muted); font-size: 13px; margin-top: 32px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="hero">
+  <div class="kicker">Delper · Transaction Flow</div>
+  <h1>From ad click to vendor payout</h1>
+  <p class="lede">An 18-step sequence in which the buyer's USD 300 is held in escrow, inspected by a third-party quality controller, and only then released to the seller.</p>
+</header>
+
+<section>
+  <h2>Phase 1: Catalogue ingestion and discovery (free funnel)</h2>
+  <p class="phase-note">Sellers join at no cost. The platform indexes their catalogue and bids for buyer attention.</p>
+  <ol class="steps">
+    <li><span class="n">1</span><strong>Free catalogue ingestion</strong><span>The seller connects their storefront (Shopify, WooCommerce, Amazon, ONDC, or Proxtera). The middleware syncs the full inventory to the platform at no cost.</span></li>
+    <li><span class="n">2</span><strong>Passive traffic monitoring</strong><span>Unsponsored products are monitored in "Ghost Mode," tracking real-time search trends and indexing metadata for search engines without running active ads.</span></li>
+    <li><span class="n">3</span><strong>Programmatic RTB matching</strong><span>The ad-tech engine identifies a high-intent shopper on a partner network and runs a real-time bidding sequence to show the seller's item.</span></li>
+    <li><span class="n">4</span><strong>The conversion hook</strong><span>The buyer clicks the ad and starts a purchase of the USD 300 product, showing immediate intent to buy.</span></li>
+  </ol>
+</section>
+
+<section>
+  <h2>Phase 2: Gateway interception and paywall</h2>
+  <p class="phase-note">The platform holds the order before it reaches the seller's warehouse dashboard.</p>
+  <ol class="steps">
+    <li><span class="n">5</span><strong>Checkout interception</strong><span>Middleware intercepts the native payment routing and pauses checkout before the order reaches the seller's dashboard.</span></li>
+    <li><span class="n">6</span><strong>Subscription paywall activation</strong><span>The seller receives an automated alert: a buyer is ready to lock USD 300 into escrow, and the seller must pay the USD 100 annual subscription to claim it.</span></li>
+    <li><span class="n">7</span><strong>Access clearance</strong><span>The seller pays the USD 100 annual fee, which upgrades the account to Premium Active and unlocks the escrow routing pipeline.</span></li>
+  </ol>
+</section>
+
+<section>
+  <h2>Phase 3: Escrow isolation and upfront quality controls</h2>
+  <p class="phase-note">The buyer's funds are locked before anything ships.</p>
+  <ol class="steps">
+    <li><span class="n">8</span><strong>Escrow fund lockup</strong><span>The buyer's USD 300 is authorized and routed into a locked Stripe Connect custodial escrow vault. The buyer pays no processing or trust fees.</span></li>
+    <li><span class="n">9</span><strong>Upfront 3PQC prepayment</strong><span>The seller prepays third-party quality control (3PQC) and logistics fees at cost, about USD 15, through the dashboard.</span></li>
+    <li><span class="n">10</span><strong>Leg 1: inbound logistics</strong><span>The system generates a shipping label. The seller ships the item to the nearest SGS or QIMA inspection hub, not to the buyer's address.</span></li>
+  </ol>
+</section>
+
+<section>
+  <h2>Phase 4: The physical trust gate</h2>
+  <p class="phase-note">Inspectors decide whether the item moves on to the buyer.</p>
+  <ol class="steps">
+    <li>
+      <span class="n">11</span><strong>3PQC inspection gate</strong><span>SGS technicians unbox the product and run a five-point checklist covering authenticity, cosmetic flaws, and structural functionality.</span>
+      <div class="branch">
+        <div class="fail"><b>If the product fails</b>The order is cancelled. The buyer receives an immediate USD 300 refund from escrow. The item is returned to the seller using the prepaid logistics funds, so the platform loses USD 0.</div>
+        <div class="pass"><b>If the product passes</b>The item is certified "Flawless," sealed in an official box with a tamper-evident digital seal, and a cryptographic "Passed" token is sent to the platform through the SGS API.</div>
+      </div>
+    </li>
+  </ol>
+</section>
+
+<section>
+  <h2>Phase 5: Doorstep delivery and buyer sign-off</h2>
+  <p class="phase-note">Only items with a "Passed" token leave the hub.</p>
+  <ol class="steps">
+    <li><span class="n">12</span><strong>Leg 2: outbound logistics</strong><span>On detecting the "Passed" token, the middleware releases the item from the hub and ships it to the buyer's doorstep, pulling live carrier tracking.</span></li>
+    <li><span class="n">13</span><strong>Buyer Satisfaction Certificate (BSC)</strong><span>The buyer unboxes the item and submits a digitally signed BSC through the mobile or web widget.</span></li>
+    <li><span class="n">14</span><strong>72-hour "deemed satisfaction" override</strong><span>If the buyer does not sign or dispute, a background job checks carrier data. After 72 hours from delivery with no dispute, the system issues a system-signed satisfaction token so the seller's cash flow is not blocked.</span></li>
+  </ol>
+</section>
+
+<section>
+  <h2>Phase 6: Day 16 financial clearing</h2>
+  <p class="phase-note">Payout follows a fixed 16-day timetable after the satisfaction token.</p>
+  <ol class="steps">
+    <li><span class="n">15</span><strong>T-minus 16 day countdown</strong><span>The satisfaction token from step 13 or 14 starts a 16-day payout sequence in the Stripe Connect automation engine.</span></li>
+    <li><span class="n">16</span><strong>Platform revenue sweep (22.2% + 2%)</strong><span>At 12:00:01 AM on day 16, the escrow engine transfers a lead generation fee (USD 66.67, used to pay for RTB ad inventory) and a 2% sales commission (USD 6) to the platform's operating account, USD 72.67 in total.</span></li>
+    <li><span class="n">17</span><strong>Vendor disbursal</strong><span>The remaining USD 227.33 is paid to the seller's linked bank account or digital wallet.</span></li>
+  </ol>
+</section>
+
+<div class="note">
+  <p><strong>Fee basis.</strong> Seller-paid fees on a USD 300 order total USD 72.67 (24.2%): a USD 66.67 lead-generation fee (22.2%) and a USD 6 sales commission (2%). This matches the Delper overview.</p>
+  <p>The Phase 5 timing (72-hour override and day-16 payout) and the "USD 0 platform loss" on a failed inspection assume the return logistics are fully covered by the seller's prepayment. Check that against actual 3PQC and shipping costs.</p>
+</div>
+
+<p class="disclaimer">This page summarises the process as described in the source document and does not verify the figures. It is not investment advice.</p>
+
+</div>
+</body>
+</html>
